@@ -1,7 +1,8 @@
 import ListGroup from "./components/ListGroup/ListGroup";
 import Button from "./components/Button/Button";
-import Heart from "./components/Like";
 import Like from "./components/Like";
+import { produce } from "immer";
+import { useState } from "react";
 
 // import { useState } from "react";
 // import Alert from "./components/Alert";
@@ -12,7 +13,19 @@ function App() {
     console.log(item);
   };
 
+  // mark the first bug is fixed
+  const [bugs, setBugs] = useState([
+    { id: 1, title: "Bug 1", fixed: false },
+    { id: 2, title: "Bug 2", fixed: false },
+  ]);
+
   const handleButtonClick = () => {
+    setBugs(
+      produce((draft) => {
+        const bug = draft.find((bug) => bug.id === 1);
+        if (bug) bug.fixed = true;
+      })
+    );
     console.log("Button clicked");
   };
 
@@ -23,6 +36,11 @@ function App() {
         heading="Cities"
         onSelectItem={handleSelectItem}
       />
+      {bugs.map((bug) => (
+        <p key={bug.id}>
+          {bug.title} {bug.fixed ? "fixed" : "New"}
+        </p>
+      ))}
       <Button onClick={handleButtonClick}>My Button</Button>
       <br />
       <Like onClick={() => console.log("Heart clicked")} />
