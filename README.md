@@ -93,11 +93,11 @@ const [selectedIndex, setSelectedIndex] = useState(-1);
 
 ### Passing data and function via props
 
-• Reuse components
-• Input passed to a components
-• Similar to function arguments
-• Immutable
-• Each time it changes, cause a re-render (updates the DOM accordingly)
+1. Reuse components
+2. Input passed to a components
+3. Similar to function arguments
+4. Immutable
+5. Each time it changes, cause a re-render (updates the DOM accordingly)
 
 ```
 function App() {
@@ -163,11 +163,11 @@ import styled from ‘styled-components’
 ### Popular UI Libraries
 
 ```
-•	Bootstrap
-•	Material UI
-•	Tailwind CSS
-•	Daisy UI
-•	Chakra UI
+Bootstrap
+Material UI
+Tailwind CSS
+Daisy UI
+Chakra UI
 ```
 
 ### Adding icons
@@ -200,9 +200,9 @@ State is stored outside of components
 Use hooks at the top level of your component
 
 State structure
-•	Aviod redundant state variables
-•	Group related variables inside an object
-•	Aviod deep nested structure, better to use flat structure
+1. Aviod redundant state variables
+2. Group related variables inside an object
+3. Aviod deep nested structure, better to use flat structure
 ```
 
 ### Keep components pure
@@ -318,4 +318,58 @@ return (
   </div>
 )
 
+```
+
+### Share state between components
+
+```
+function App() {
+  const [cartItems, setCartItems] = useState([
+    "Product1",
+    "Product2",
+    "Product3",
+    "Product4",
+  ]);
+
+  return (
+    <div>
+      <NavBar cartItemsCount={cartItems.length} />
+      <Cart cartItems={cartItems} onClear={() => setCartItems([])} />
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+### Building an expandableText component
+
+Use state hook only for the value change over time, and their change require to redering components
+
+```
+import { useState } from "react";
+
+interface Props {
+  children: string;
+  maxChars?: number;
+}
+
+const ExpandableText = ({ children, maxChars = 100 }: Props) => {
+  const [isExpanded, setExpanded] = useState(false);
+
+  if (children.length <= maxChars) return <p>{children}</p>;
+  const text = isExpanded ? children : children.substring(0, maxChars);
+
+  return (
+    <p>
+      {text}...
+      <button onClick={() => setExpanded(!isExpanded)}>
+        {isExpanded ? "Less" : "More"}
+      </button>
+    </p>
+  );
+};
+
+export default ExpandableText;
 ```
