@@ -566,4 +566,106 @@ const Form = () => {
 
 ```
 
+# Validation libraries:
+
+Joi
+Yup
+Zod
+....
+
 2. use Zod to Validation
+
+Install Zod
+
+```
+npm i zod@latest
+```
+
+Use Zod to define a schema type form
+
+```
+import { z } from "zod";
+
+const schema = z.object({
+  name: z.string().min(3),
+  age: z.number().min(18)
+})
+
+type FormData = z.infer<typeof schema>;
+```
+
+install hookform-resolvers-zod
+
+```
+npm i @hookform/resolvers@latest
+
+```
+
+Intergrate with react hook form with Zod
+
+```
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { schema } from "./schema";
+import { z } from "zod";
+
+const schema = z.object({
+  name: z.string().min(3, { message: "Name must be at least 3 characters" }),
+  age: z
+    .number({ invalid_type_error: "Age field is required" })
+    .min(18, { message: "Age must be at least 18" }),
+});
+
+type FormData = z.infer<typeof schema>;
+
+const Form = () => {
+  // use useForm
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input
+        {...register("name")}
+        id="name"
+        type="text"
+        className="form-control"
+      />
+      {errors.name && <p className="text-danger">{errors.name.message}</p>}
+      <input
+        {...register("age", { valueAsNumber: true })}
+        id="age"
+        type="number"
+        className="form-control"
+      />
+      {errors.age && <p className="text-danger">{errors.age.message}</p>}
+    </form>
+  )
+}
+```
+
+## Disabling the submit button if the form is invalid
+
+```
+const Form = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
+  const onSubmit = (data: FieldValues) => console.log(data);
+
+  return (
+    <button disabled={!isValid} className="btn btn-primary" type="submit">
+      Submit
+    </button>
+  )
+}
+```
