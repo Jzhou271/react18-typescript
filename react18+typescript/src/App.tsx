@@ -4,35 +4,46 @@
 // import Like from "./components/Like";
 // import NavBar from "./components/NavBar";
 // import Cart from "./components/Cart";
+// import ExpandableText from "./components/ExpandableText";
+import Form from "./components/Form";
 
 // import { produce } from "immer";
 // import { useState } from "react";
 
-import ExpandableText from "./components/ExpandableText";
-
 function App() {
   return (
     <div>
-      <ExpandableText>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis sit
-        laborum aspernatur molestias excepturi, voluptate quaerat molestiae. Eum
-        necessitatibus doloremque, eaque, sunt doloribus animi rerum sint, est
-        laborum reprehenderit neque. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Perferendis asperiores sunt quasi debitis facere qui
-        quaerat labore itaque modi! Consectetur, necessitatibus blanditiis dicta
-        facilis maxime voluptate odit accusamus rerum incidunt! Lorem ipsum
-        dolor sit amet consectetur adipisicing elit. Minus eum id nisi ad fugiat
-        harum quibusdam, esse quam, ipsam officia consequuntur, deleniti aperiam
-        eveniet. Consequatur ipsum sunt vero sed provident. Lorem ipsum dolor
-        sit, amet consectetur adipisicing elit. Ducimus, a fugit ipsam
-        perferendis quaerat molestiae quam quos vitae pariatur sequi itaque
-        asperiores quis, in velit non. Illum omnis eveniet atque.
-      </ExpandableText>
+      <Form />
     </div>
   );
 }
 
 export default App;
+
+// ExpandableText excrise (ExpandableText.tsx)
+// function App() {
+//   return (
+//     <div>
+//       <ExpandableText>
+//         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis sit
+//         laborum aspernatur molestias excepturi, voluptate quaerat molestiae. Eum
+//         necessitatibus doloremque, eaque, sunt doloribus animi rerum sint, est
+//         laborum reprehenderit neque. Lorem ipsum dolor sit amet consectetur
+//         adipisicing elit. Perferendis asperiores sunt quasi debitis facere qui
+//         quaerat labore itaque modi! Consectetur, necessitatibus blanditiis dicta
+//         facilis maxime voluptate odit accusamus rerum incidunt! Lorem ipsum
+//         dolor sit amet consectetur adipisicing elit. Minus eum id nisi ad fugiat
+//         harum quibusdam, esse quam, ipsam officia consequuntur, deleniti aperiam
+//         eveniet. Consequatur ipsum sunt vero sed provident. Lorem ipsum dolor
+//         sit, amet consectetur adipisicing elit. Ducimus, a fugit ipsam
+//         perferendis quaerat molestiae quam quos vitae pariatur sequi itaque
+//         asperiores quis, in velit non. Illum omnis eveniet atque.
+//       </ExpandableText>
+//     </div>
+//   );
+// }
+
+// export default App;
 
 // Shopping cart excrise -- share state between components (NavBar.tsx and Cart.tsx)
 

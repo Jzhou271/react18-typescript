@@ -373,3 +373,197 @@ const ExpandableText = ({ children, maxChars = 100 }: Props) => {
 
 export default ExpandableText;
 ```
+
+### Building forms
+
+## Create a form
+
+```
+const Form = () => {
+  return (
+    <form>
+      <div className="mb-3">
+        <label htmlFor="name" className="form-label">
+          Name
+        </label>
+        <input id="name" type="text" className="form-control" />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="age" className="form-label">
+          Age
+        </label>
+        <input id="age" type="number" className="form-control" />
+      </div>
+      <button className="btn btn-primary" type="submit">
+        Submit
+      </button>
+    </form>
+  );
+};
+
+export default Form;
+
+```
+
+## Handing form submission
+
+1. PreventDefault
+
+```
+
+import { FormEvent } from "react";
+
+const Form = () => {
+  const hanleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    console.log("Submitted");
+  };
+
+return (
+    // event preventDefault will block form post in server
+    <form onSubmit={hanleSubmit}>
+      <div>
+      </div>
+    </form>
+  );
+};
+
+```
+
+2. Store data into server
+
+## Accessing input fields
+
+1. Get the value of the input field in the form, use useRef hook
+
+```
+const Form = () => {
+  // useRef will reference any type of element in DOM
+  const nameRef = useRef<HTMLInputElement>(null);
+  const ageRef = useRef<HTMLInputElement>(null);
+  const person = {
+    name: "",
+    age: 0,
+  };
+
+  const hanleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (nameRef.current !== null) person.name = nameRef.current.value;
+    if (ageRef.current !== null) person.age = parseInt(ageRef.current.value);
+    console.log(person);
+  };
+
+  return (
+    ...
+    <input ref={nameRef} id="name" type="text" className="form-control" />
+    <input ref={ageRef} id="age" type="number" className="form-control" />
+    )
+}
+
+```
+
+2. Get the value of the input field in the form, use useState hook
+
+```
+  const [person, setPerson] = useState({
+      name: "",
+      age: 0,
+    });
+
+  return (
+    <input
+      onChange={(e) => setPerson({ ...person, name: e.target.value })}
+      value={person.name} // this input field always reply under value in the state varible
+      id="name"
+      type="text"
+      className="form-control"
+    />
+
+    <input
+      onChange={(e) =>
+        setPerson({ ...person, age: parseInt(e.target.value) })}
+        value={person.age} // this input field always reply under value in the state varible
+        id="age"
+        type="number"
+        className="form-control"
+      />
+  )
+
+```
+
+3. Get the value of the input field in the form, use React Hook Form
+
+```
+npm install react-hook-form@latest
+import { useForm } from "react-hook-form";
+
+```
+
+Call useForm
+
+```
+import { useForm, FieldValues } from "react-hook-form";
+const Form = () => {
+  // use useForm
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data: FieldValues) => console.log(data);
+
+return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input
+        {...register("name")}
+        id="name"
+        type="text"
+        className="form-control"
+      />
+      <input
+        {...register("age")}
+        id="age"
+        type="number"
+        className="form-control"
+      />
+    </form>
+    )
+}
+
+```
+
+## Applying Validation
+
+1. use useForm to Validation
+
+```
+interface FormData {
+  name: string;
+  age: number;
+}
+
+const Form = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+  const onSubmit = (data: FieldValues) => console.log(data);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input
+        {...register("name", { required: true, minLength: 3 })}
+        id="name"
+        type="text"
+        className="form-control"
+      />
+      {errors.name?.type === "required" && (
+        <p className="text-danger">The name field is required</p>
+      )}
+      {errors.name?.type === "minLength" && (
+        <p className="text-danger">The name must be at least 3 characters!</p>
+      )}
+    </form>
+  )
+}
+
+```
+
+2. use Zod to Validation
