@@ -5,7 +5,9 @@
 ### Install project
 
 ```
-npx create-next-app@latest
+npm create vite@latest
+cd xxxx
+npm install
 ```
 
 ### Start project
